@@ -1,0 +1,133 @@
+########################################################################
+# AWS SRA Terraform Solutions Configuration Example
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+########################################################################
+
+# This file serves as an example for the config.tfvars file that will be
+# automatically generated when you deploy the common prerequisites solution.
+# 
+# The actual config.tfvars file will contain real values populated from 
+# AWS SSM parameters that are created during the common prerequisites deployment.
+
+########################################################################
+# Main Configuration (Auto-populated from SSM Parameters)
+########################################################################
+audit_account_id                                   = "111111111111"
+home_region                                        = "us-east-1"
+log_archive_account_id                             = "222222222222"
+management_account_id                              = "333333333333"
+organization_id                                    = "o-example1234"
+root_organizational_unit_id                        = "r-example"
+customer_control_tower_regions                     = "us-east-1,us-west-2"
+customer_control_tower_regions_without_home_region = "us-west-2"
+enabled_regions                                    = ""
+enabled_regions_without_home_region                = ""
+
+########################################################################
+# Services to enable/disable
+# Change these values to true to enable specific AWS security services
+########################################################################
+enable_gd                  = false  # Enable Amazon GuardDuty
+enable_sh                  = false  # Enable AWS Security Hub
+enable_access_analyzer     = false  # Enable IAM Access Analyzer
+enable_macie               = false  # Enable Amazon Macie
+enable_cloudtrail_org      = false  # Enable AWS CloudTrail
+enable_iam_password_policy = false  # Enable IAM Password Policy
+enable_inspector           = false  # Enable Amazon Inspector
+
+########################################################################
+# Guard Duty Settings
+########################################################################
+disable_guard_duty                   = false
+enable_s3_logs                       = true
+enable_kubernetes_audit_logs         = true
+enable_malware_protection            = true
+enable_rds_login_events              = true
+enable_runtime_monitoring            = true
+enable_ecs_fargate_agent_management  = true
+enable_ec2_agent_management          = true
+enable_eks_addon_management          = true
+enable_lambda_network_logs           = true
+guardduty_control_tower_regions_only = true
+finding_publishing_frequency         = "FIFTEEN_MINUTES"
+
+########################################################################
+# Security Hub Settings
+########################################################################
+disable_security_hub                     = false
+cis_standard_version                     = "3.0.0"
+compliance_frequency                     = 7
+securityhub_control_tower_regions_only   = true
+enable_cis_standard                      = false
+enable_pci_standard                      = false
+enable_nist_standard                     = false
+enable_security_best_practices_standard  = true
+pci_standard_version                     = "3.2.1"
+nist_standard_version                    = "5.0.0"
+security_best_practices_standard_version = "1.0.0"
+
+########################################################################
+# Inspector Settings
+########################################################################
+disable_inspector                    = false # set true BEFORE destroy
+ecr_rescan_duration                  = "LIFETIME"
+scan_components                      = "EC2,ECR,LAMBDA,LAMBDA_CODE"
+inspector_control_tower_regions_only = true
+
+########################################################################
+# IAM Password Policy
+########################################################################
+iam_password_policy_allow_users_to_change_password = true
+iam_password_policy_hard_expiry                    = false
+iam_password_policy_max_password_age               = 90
+iam_password_policy_minimum_password_length        = 14
+iam_password_policy_password_reuse_prevention      = 24
+iam_password_policy_require_lowercase_characters   = true
+iam_password_policy_require_numbers                = true
+iam_password_policy_require_symbols                = true
+iam_password_policy_require_uppercase_characters   = true
+
+########################################################################
+# Macie Settings
+########################################################################
+disable_macie                      = false
+macie_finding_publishing_frequency = "FIFTEEN_MINUTES"
+
+########################################################################
+# CloudTrail Settings
+########################################################################
+enable_data_events_only   = true
+enable_lambda_data_events = true
+enable_s3_data_events     = true
+disable_cloudtrail        = false
+
+# HOW TO REFERENCE VALUES:
+# ========================
+# 
+# 1. Account IDs and Organization Information:
+#    - audit_account_id: The AWS account designated for security auditing
+#    - management_account_id: The AWS Organizations management account
+#    - log_archive_account_id: The account for centralized log storage
+#    - organization_id: Your AWS Organizations ID
+#
+# 2. Regional Configuration:
+#    - home_region: Primary region for Control Tower
+#    - customer_control_tower_regions: All regions managed by Control Tower
+#
+# 3. Service Enablement:
+#    - Set enable_* variables to true to deploy specific services
+#    - Use disable_* variables to safely remove services before destruction
+#
+# 4. Service-Specific Configuration:
+#    - Each service has its own section with configurable parameters
+#    - Refer to the README for each service module for detailed explanations
+#
+# 5. Usage Examples:
+#    - To enable GuardDuty: set enable_gd = true
+#    - To enable Security Hub with NIST standard: set enable_sh = true and enable_nist_standard = true
+#    - To change password policy: modify iam_password_policy_* variables
+#
+# 6. Deployment:
+#    - Run: python3 terraform_stack.py apply
+#    - The script will use these values across all accounts and regions
