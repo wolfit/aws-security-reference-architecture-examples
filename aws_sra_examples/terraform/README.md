@@ -89,13 +89,20 @@ terraform apply
 
 After the apply operation is complete, Terraform will have created two files in your `./aws_sra_examples/terraform/solutions` folder:  `backend.tfvars` and `config.tfvars`
 
+**NOTE**: Example template files (`backend.tfvars.example`, `config.tfvars.example`) and comprehensive documentation (`HOW-TO-REFERENCE-VALUES.md`) are provided in the solutions directory to help you understand how to reference values and configure your deployment.
+
 ### Installing the AWS SRA Solutions
 
-1. From the location where the SRA code library was cloned to, change to the ./aws_sra_examples/terraform/common folder
+1. From the location where the SRA code library was cloned to, change to the ./aws_sra_examples/terraform/solutions folder
 ```bash
 cd aws_sra_examples/terraform/solutions
 ```
 2. Edit the `aws_sra_examples/terraform/solutions/config.tfvars` file, choose which AWS SRA Solutions to deploy and their settings. This can be done during initial setup or as an update later but nothing will be done unless at least one solution is set to be deployed.
+
+   **For detailed guidance on how to reference values and configure services, see:**
+   - [`config.tfvars.example`](./solutions/config.tfvars.example) - Example configuration with all available options
+   - [`backend.tfvars.example`](./solutions/backend.tfvars.example) - Example backend configuration
+   - [`HOW-TO-REFERENCE-VALUES.md`](./solutions/HOW-TO-REFERENCE-VALUES.md) - Comprehensive guide on value referencing
 
 #### Deployment To All Accounts and Governed Regions<!-- omit in toc -->
 
