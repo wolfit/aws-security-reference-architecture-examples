@@ -290,7 +290,7 @@ Resources:
               - !Ref pRootOrganizationalUnitId
           Regions:
             - !Ref AWS::Region
-      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration-role.yaml
+      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration-role.yaml?v=${pSRASolutionVersion}
       Parameters:
         - ParameterKey: pDelegatedAdminAccountId
           ParameterValue: !Ref pAuditAccountId
@@ -305,7 +305,7 @@ Resources:
     DeletionPolicy: Delete
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration-role.yaml
+      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration-role.yaml?v=${pSRASolutionVersion}
       Parameters:
         pDelegatedAdminAccountId: !Ref pAuditAccountId
         pManagementAccountId: !Ref AWS::AccountId
@@ -321,7 +321,7 @@ Resources:
       - rSecurityHubConfigurationIAMRoleStack
     UpdateReplacePolicy: Delete
     Properties:
-      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration.yaml
+      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-configuration.yaml?v=${pSRASolutionVersion}
       Parameters:
         pCISStandardVersion: !Ref pCISStandardVersion
         pComplianceFrequency: !Ref pComplianceFrequency
@@ -371,7 +371,7 @@ Resources:
               - !Ref pRootOrganizationalUnitId
           Regions:
             - !Ref AWS::Region
-      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-recorder-start-event.yaml
+      TemplateURL: !Sub https://${pSRAStagingS3BucketName}.s3.${AWS::Region}.${AWS::URLSuffix}/${pSRASolutionName}/templates/sra-securityhub-org-recorder-start-event.yaml?v=${pSRASolutionVersion}
       Parameters:
         - ParameterKey: pManagementAccountId
           ParameterValue: !Ref AWS::AccountId

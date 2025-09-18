@@ -484,6 +484,20 @@ Resources:
         - Key: sra-solution
           Value: !Ref pSRASolutionName
 
+  rSecurityHubConfigPolicy:
+    Type: 'AWS::SecurityHub::ConfigurationPolicy'
+    DependsOn: OrganizationConfiguration
+    Properties:
+      Name: 'OrgWideSecurityHubPolicy'
+      Description: 'Enables Security Hub and standard controls across organization'
+      ConfigurationPolicy:
+        SecurityHub:
+          ServiceEnabled: true
+          SecurityControlsConfiguration:
+            DisabledSecurityControlIdentifiers: []
+          EnabledStandardIdentifiers:
+            - !Sub 'arn:${AWS::Partition}:securityhub:${AWS::Region}::standards/aws-foundational-security-best-practices/v/1.0.0'
+
   rSecurityHubOrgLambdaFunction:
     Type: AWS::Lambda::Function
     Metadata:
@@ -541,6 +555,8 @@ Resources:
           REGION_LINKING_MODE: !Ref pRegionLinkingMode
           SECURITY_BEST_PRACTICES_VERSION: !Ref pSecurityBestPracticesStandardVersion
           SNS_TOPIC_ARN: !Ref rSecurityHubOrgTopic
+          OU_ID: !Ref pOrganizationId
+          POLICY_ID: !GetAtt rSecurityHubConfigPolicy.Id
       Tags:
         - Key: sra-solution
           Value: !Ref pSRASolutionName
