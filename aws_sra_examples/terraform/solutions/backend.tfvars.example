@@ -1,0 +1,36 @@
+########################################################################
+# Terraform Backend Configuration Example
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+########################################################################
+
+# This file serves as an example for the backend.tfvars file that will be
+# automatically generated when you deploy the common prerequisites solution.
+# 
+# The actual backend.tfvars file will contain real values populated from 
+# AWS SSM parameters that are created during the common prerequisites deployment.
+
+# S3 bucket for storing Terraform state
+bucket = "sra-terraform-state-bucket-<account-id>-<region>"
+
+# Key path for the state file within the S3 bucket
+key = "state/sra_state.tfstate"
+
+# AWS region where the S3 bucket is located
+region = "us-east-1"
+
+# Enable encryption for the state file
+encrypt = true
+
+# DynamoDB table for state locking
+dynamodb_table = "sra-tfstate-lock"
+
+# HOW TO USE THIS FILE:
+# =====================
+# 1. Deploy the common prerequisites solution first: 
+#    cd aws_sra_examples/terraform/common && terraform apply
+# 2. The actual backend.tfvars file will be automatically created in this directory
+# 3. The terraform_stack.py script will use this file automatically
+# 4. You can reference these values in your Terraform configuration using:
+#    - terraform_remote_state data source
+#    - SSM parameter store values

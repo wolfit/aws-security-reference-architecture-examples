@@ -285,6 +285,8 @@ def configure_delegated_admin_securityhub(
     region_linking_mode: str,
     home_region: str,
     aws_partition: str,
+    ou_id: str,
+    policy_id: str,
     standards_user_input: dict,
 ) -> None:
     """Configure delegated admin security hub.
@@ -334,7 +336,8 @@ def configure_delegated_admin_securityhub(
         LOGGER.info(f"SecurityHub default standards disabled in {region}")
 
         update_organization_configuration_response = securityhub_delegated_admin_region_client.update_organization_configuration(
-            AutoEnable=True, AutoEnableStandards="NONE"
+            AutoEnable=False,
+            OrganizationConfiguration={"ConfigurationType": "CENTRAL"},
         )
         api_call_details = {"API_Call": "securityhub:UpdateOrganizationConfiguration", "API_Response": update_organization_configuration_response}
         LOGGER.info(api_call_details)
@@ -351,6 +354,17 @@ def configure_delegated_admin_securityhub(
 
     securityhub_delegated_admin_client: SecurityHubClient = delegated_admin_session.client("securityhub", config=BOTO3_CONFIG)
     create_finding_aggregator(securityhub_delegated_admin_client, region_linking_mode, regions, home_region)
+
+    start_configuration_policy_association_response = securityhub_delegated_admin_region_client.start_configuration_policy_association(
+        ConfigurationPolicyIdentifier=policy_id, Target={"OrganizationalUnitId": ou_id}
+    )
+
+    api_call_details = {
+        "API_Call": "securityhub:StartConfigurationPolicyAssociation",
+        "API_Response": start_configuration_policy_association_response,
+    }
+    LOGGER.info(api_call_details)
+    LOGGER.info("SecurityHub organization configuration policy association started")
 
 
 def configure_member_account(account_id: str, configuration_role_name: str, regions: list, standards_user_input: dict, aws_partition: str) -> None:
